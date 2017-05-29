@@ -6,7 +6,7 @@ public class Problema1 {
 	
 	/**
 	 * Realiza una k-rotacion
-	 * <Pre>0<=p<q<=n<10^5, -10^5<k<10^5, Para i tal que 0<=i<n, a[i]=i+1, </Pre>
+	 * <Pre>0<=p<q<=n<10^5 && -10^5<k<10^5 && Para i tal que 0<=i<n : a[i]=i+1, </Pre>
 	 * @param p Posicion inicial del intervalo
 	 * @param q Posicion final del intervalo
 	 * @param k Numero de rotaciones que se realizan

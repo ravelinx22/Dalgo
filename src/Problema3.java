@@ -6,8 +6,6 @@ import java.util.Scanner;
 
 public class Problema3 {
 
-		// Declaration
-
 		static Scanner sc = new Scanner(System.in);
 		static ArrayList<Character> uniquechar = new ArrayList<Character>();
 		static int nos[] = {0,1,2,3,4,5,6,7,8,9};

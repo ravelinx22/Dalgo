@@ -1,58 +1,67 @@
-import java.util.ArrayList;
+
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Problema2 {
 
-	static double weights[] = {1.0 ,2.0 ,3.0 ,4.0 ,5.0 ,6.0 ,7.0 ,8.0 ,9.0 ,10.0 ,11.0 ,12.0 ,13.0 ,14.0 ,15.0 ,16.0 ,17.0 ,18.0 ,19.0 ,20.0 ,21.0 ,22.0 ,23.0 ,24.0 ,25.0 ,26.0 ,27.0 ,28.0 ,29.0 ,30.0 ,31.0 ,32.0 ,33.0 ,34.0 ,35.0 ,36.0 ,37.0 ,38.0 ,39.0 ,40.0 ,41.0 ,42.0 ,43.0 ,44.0 ,45.0 ,46.0 ,47.0 ,48.0 ,49.0 ,50.0 ,51.0 ,52.0 ,53.0 ,54.0 ,55.0 ,56.0 ,57.0 ,58.0 ,59.0 ,60.0 ,61.0 ,62.0 ,63.0 ,64.0 ,65.0 ,66.0 ,67.0 ,68.0 ,69.0 ,70.0 ,71.0 ,72.0 ,73.0 ,74.0 ,75.0 ,76.0 ,77.0 ,78.0 ,79.0 ,80.0 ,81.0 ,82.0 ,83.0 ,84.0 ,85.0 ,86.0 ,87.0 ,88.0 ,89.0 ,90.0 ,91.0 ,92.0 ,93.0 ,94.0 ,95.0 ,96.0 ,97.0 ,98.0 ,99.0};
-	
-	public static double problema2(double max, int n, ArrayList<Integer> associates) {
-		if(calculo(n, associates) > max && associates.size() != 1)
-			max = calculo(n, associates);
-		
-		
-		if(associates.size() == weights.length)
-			return max;
-		
-		for(int i = 1; i < weights.length; i++) {
-			if(!associates.contains(i))
-			{
-				ArrayList<Integer> associates2 = new ArrayList<>();
-				associates2.addAll(associates);
-				associates2.add(i);
-				max = problema2(max, n, associates2);
-			}
+	/**
+	 * <pre>0<n<=size(p) && Para i donde 0<=i<size(p) : p[i] >= 0.0</pre>
+	 * Da la ganancia maxima que puede tener un accionista n al asociarse con un grupo.
+	 * @param n Accionista que se va a asociar
+	 * @param p Porcentajes que tiene de la empresa cada accionista.
+	 * <post>Se muestra en consola la maxima ganancia que puede tener el accionista n al asociarse con un grupo</post>
+	 */
+	public static void problema2(int n, double[] p) {
+
+		double percentagesSource = p[n-1];
+		p[n-1] = 0.0;
+		Arrays.sort(p);
+
+		double suma = percentagesSource;
+		int i = 0;
+		while(suma <= 50 && i < p.length) {
+			double valor = p[i];
+			suma += valor;
+
+			i++;
 		}
-		
-		return max;
+
+		double respuesta = Math.round(((percentagesSource*100)/suma) * 100.0) / 100.0;
+		System.out.println(respuesta);
 	}
 	
-	public static double calculo(int source, ArrayList<Integer> associates) {
-		double arriba = (weights[source-1]*100);
-		double abajo = 0.0;
-		
-		for(int i = 0; i < associates.size(); i++) {
-			abajo += weights[associates.get(i)-1];
+	// Helpers
+
+	/**
+	 * <pre>percentageString != null && percentageString != "" && Para todo i donde 0<=i<length(percentageString) : percentageString.charAt(i) pertenece a los Reales </pre>
+	 * Crea un arreglo de double's a partir de una cade de caracteres que contiene los numeros
+	 * @param percentageString Cadena de caracteres que tiene los numeros que se quieres convertir a double
+	 * @return Un arreglo de doubles que contiene los numeros de la cadena percentageString
+	 * <post>Para todo i donde 0<=i<length(ans) : ans[i] pertenece a percentageString</post>
+	 */
+	public static double[] toArray(String percentageString) {
+		String[] percentagesString = percentageString.trim().split(" ");
+		double[] ans = new double[percentagesString.length];
+
+		for(int i = 0; i < ans.length; i++) {
+			ans[i] = Double.parseDouble(percentagesString[i]);
 		}
-		
-		if(abajo < 50)
-			return 0.0;
-		
-		return Math.round((arriba/abajo) * 100.0) / 100.0;
+
+		return ans;
 	}
-	
-	public static void printArrayList(ArrayList<Integer> associates) {
-		for(int x : associates) {
-			System.out.print(x +" ");
-		}
-		
-		System.out.println();
-	}
-	
+
+	// Main
+
 	public static void main(String args[]) {
-		ArrayList<Integer> associates = new ArrayList<>();
-		associates.add(2);
-		double x = problema2(0.0, 99, associates);
-		System.out.println(x);
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		sc.nextLine();
+		String percentString = sc.nextLine();
+		double[] p = toArray(percentString);
+		problema2(n, p);
+
+		sc.close();
 	}
-	
-	
+
+
 }
