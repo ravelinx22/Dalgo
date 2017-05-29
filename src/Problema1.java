@@ -51,6 +51,7 @@ public class Problema1 {
 		ar = ar.substring(1, ar.length()-1);
 		String datos[] = ar.split(",");
 		int[] a = toArray(datos);
+		
 		problema1(p, q, k, a);
 	}
 }
