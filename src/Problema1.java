@@ -4,9 +4,16 @@ import java.util.Scanner;
 
 public class Problema1 {
 	
+	/**
+	 * Realiza una k-rotacion
+	 * <Pre>0<=p<q<=n<10^5, -10^5<k<10^5, Para i tal que 0<=i<n, a[i]=i+1, </Pre>
+	 * @param p Posicion inicial del intervalo
+	 * @param q Posicion final del intervalo
+	 * @param k Numero de rotaciones que se realizan
+	 * @param a Arreglo que se va a rotar
+	 * <Post>Todos los elementos en el intervalo p...q-1 son movidos k veces</Post>
+	 */
 	public static void problema1(int p, int q, int k, int[] a) {
-		printArray(a);
-		
 		int[] copy = Arrays.copyOf(a, a.length);
 		
 		for(int i = p; i < q; i++) {
@@ -17,41 +24,58 @@ public class Problema1 {
 			
 			a[finPos] = copy[i];
 		}
-		
-		printArray(a);
 	}
 	
 	// Helpers
 	
-	public static int[] toArray(String[] ar) {
-		int[] ans = new int[ar.length];
-		
-		for(int i = 0; i < ans.length; i++) {
-			ans[i] = Integer.parseInt(ar[i]); 
-		}
-		
-		return ans;
- 	}
-	
+	/**
+	 * <Pre>El arreglo existe. ar != null </Pre>
+	 * Muestra en consola un arreglo de enteros
+	 * @param ar Arreglo de enteros a mostrar en consola
+	 * <Post>El arreglo se mostro en consola</Post>
+	 */
 	public static void printArray(int[] ar) {
 		for(int x : ar)
 			System.out.print(x +" ");
 		
 		System.out.println();
 	}
+	
+	/**
+	 * <Pre>n >= 0</Pre>
+	 * Crea un arreglo de tamaño n
+	 * @param length Tamaño que va a tener el arreglo
+	 * @return Arreglo a de tamaño n
+	 * <Post>Para i tal que 0<=i<n se cumple que a[i]=i+1</Post>
+	 */
+	public static int[] darArreglo(int n) {
+		int[] ans = new int[n];
+		
+		for(int i = 1; i <= n; i++) {
+			ans[i-1] = i;
+		}
+		
+		return ans;
+	}
 
+	// Main
+	
 	public static void main(String args[])
 	{
 		Scanner sc = new Scanner(System.in);
-		int p = sc.nextInt();
-		int q = sc.nextInt();
-		int k = sc.nextInt();
+		int n = sc.nextInt();
+		int nr = sc.nextInt();
 		sc.nextLine();
-		String ar = sc.nextLine();
-		ar = ar.substring(1, ar.length()-1);
-		String datos[] = ar.split(",");
-		int[] a = toArray(datos);
+		int[] arreglo = darArreglo(n);
 		
-		problema1(p, q, k, a);
+		for(int i = 0; i < nr; i++) {
+			String datos = sc.nextLine();
+			String[] pqk = datos.trim().split(" ");
+			
+			problema1(Integer.parseInt(pqk[0]), Integer.parseInt(pqk[1]), Integer.parseInt(pqk[2]), arreglo);
+		}
+		printArray(arreglo);
+		
+		sc.close();
 	}
 }
