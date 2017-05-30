@@ -3,22 +3,30 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * @author Andrea López – 201531591
+ * @author William Ravelo M - 201532093
+ */
 public class Problema3 {
 
 	// Atributos
 
 	private static ArrayList<Character> charsSinRepetir = new ArrayList<Character>();
 	private static int possiblesValores[] = {0,1,2,3,4,5,6,7,8,9};
-
-	static HashMap<Character, Integer> permutacionActual = new HashMap<Character, Integer>();
-	static boolean haySolucion=false;
-	static ArrayList<ArrayList<Integer>> permutacionesPosibles = new ArrayList<ArrayList<Integer>>();
-	
+	private static HashMap<Character, Integer> permutacionActual = new HashMap<Character, Integer>();
+	private static boolean haySolucion=false;
+	private static ArrayList<ArrayList<Integer>> permutacionesPosibles = new ArrayList<ArrayList<Integer>>();
 	private static ArrayList<Character> charsComienzanPalabras = new ArrayList<>();
 
-	// Important
+	// Metodos
 
-	public static void calculate(String alphametic)
+	/**
+	 * <pre>c != null && length(charsSinRepetir) <= 10</pre>
+	 * Halla el numero que representa cada letra en las operaciones
+	 * @param c String que contiene la operacion a descifrar
+	 * <post></post>
+	 */
+	public static void hallarSolucion(String c)
 	{
 		Collections.sort(charsSinRepetir);
 		hallarPermutacionesPosibles(possiblesValores, 0);
@@ -41,13 +49,20 @@ public class Problema3 {
 				permutacionActual.put(charsSinRepetir.get(j),permutacionesPosibles.get(i).get(j));			
 			}
 
-			if(verificarEcuacion(alphametic))
+			if(verificarEcuacion(c))
 				haySolucion=true;
 		}
 	}
 
 	// Helpers
 
+	/**
+	 * <pre>s != null</pre>
+	 * Convierte un string a numero de acuerdo a los valores numericos asignados a cada uno actualmente.
+	 * @param s String a convertir a numero
+	 * @return Representacion numerica del string
+	 * <post>ans pertenece a los enteros+</post>
+	 */
 	public static int toNumber(String s)
 	{
 		String temp="";
@@ -55,9 +70,18 @@ public class Problema3 {
 		{
 			temp += permutacionActual.get(s.charAt(i));
 		}
-		return Integer.parseInt(temp);
+		
+		int ans = Integer.parseInt(temp);
+		
+		return ans;
 	}
 
+	/**
+	 * <pre>s != null</pre>
+	 * Guarda todos los caracteres, una vez en el arreglo charsComienzanPalabras
+	 * @param s String que contiene los caracteres
+	 * <post>length(charsComienzanPalabras) <= length(s) && Para todo i donde 0<=i<length(s) : s.charAt(i) pertenece a charsComienzanPalabras</post>
+	 */
 	public static void guardarCaracteresSinRepetir(String s)
 	{
 		// Agregar caracteres que comienzan palabra
@@ -80,6 +104,13 @@ public class Problema3 {
 		}
 	}
 
+	/**
+	 * <pre>s != null</pre>
+	 * Verifica si con la permutacion actual se cumple la ecuacion del alphametic
+	 * @param s Alphametic a descubrir
+	 * @return True si la permutacion actual cumple el alphametic, false de lo contrario
+	 * <post>ans = true v false</post>
+	 */
 	public static boolean verificarEcuacion(String s) {
 		String[] operaciones = s.split("=");
 		ArrayList<String> palabras = new ArrayList<String>();
@@ -117,16 +148,23 @@ public class Problema3 {
 			suma2 += resta;
 		}
 
-		// MAS
-		boolean posi = true;
+		boolean cumpleCondicion = true;
 		for(String pos : palabras) {
 			if(pos.length() != String.valueOf(toNumber(pos)).length())
-				posi = false;
+				cumpleCondicion = false;
 		}
 
-		return (suma == suma2) && posi;
+		boolean ans = (suma == suma2) && cumpleCondicion;
+		return ans;
 	}
 
+	/**
+	 * <pre>k < length(a)</pre>
+	 * Halla todas las permutaciones posibles que pueden haber con el arreglo a y comenzando en k
+	 * @param a Arreglo al que se quiere hallar las posibles permutaciones
+	 * @param k Variable donde comienza la permutacion
+	 * <post>length(permutacionesPosibles) >= 0</post>
+	 */
 	public static void hallarPermutacionesPosibles(int []a,int k )
 	{
 		if(k==a.length)
@@ -153,6 +191,11 @@ public class Problema3 {
 		}
 	}
 
+	/**
+	 * <pre>haySolucion = true v false</pre>
+	 * Muestra en consola * si no hay respuesta o un String s tal que para todo i donde 0<=i<length(s) : s.charAt(i) pertenece a la permutacionActual
+	 * <post>Se momstro en consola el resultado del alphametic</post> 
+	 */
 	public static void printAns() {		
 		char[] ans = new char[10];
 
@@ -177,19 +220,10 @@ public class Problema3 {
 		String alphametic = sc.nextLine();
 		guardarCaracteresSinRepetir(alphametic);
 
-		long start = System.currentTimeMillis();
-
-
-		calculate(alphametic);
-
-
-		long end = System.currentTimeMillis();
-		double time = (end-start)/1000.0;
-		System.out.println("Time required for execution: "+time+" seconds");
-
-
-
+		hallarSolucion(alphametic);
 		printAns();
+		
+		sc.close();
 	}
 }
 

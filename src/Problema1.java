@@ -2,6 +2,10 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * @author Andrea López – 201531591
+ * @author William Ravelo M - 201532093
+ */
 public class Problema1 {
 	
 	/**
