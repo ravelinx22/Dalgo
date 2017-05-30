@@ -16,6 +16,8 @@ public class Problema2 {
 		double percentagesSource = p[n-1];
 		p[n-1] = 0.0;
 		Arrays.sort(p);
+		
+		double conSoloUno = minimoAsociandoseConUno(percentagesSource, p);
 
 		double suma = percentagesSource;
 		int i = 0;
@@ -27,7 +29,28 @@ public class Problema2 {
 		}
 
 		double respuesta = Math.round(((percentagesSource*100)/suma) * 100.0) / 100.0;
+		
+		respuesta = (conSoloUno > respuesta) ? conSoloUno : respuesta;
+		
 		System.out.println(respuesta);
+	}
+	
+	/**
+	 * <pre>0<n<=size(p) && Para i donde 0<=i<size(p) : p[i] >= 0.0</pre>
+	 * Verifica si asociandose con un solo socio se puede cumplir con mas del 50%
+	 * @param percentagesSource Porcentaje del accionista que se quiere asociar con los demas
+	 * @param p Arreglo que contiene los porcentajes de los accionistas
+	 * @return Ganancia maxima que puede tener al asociarse con un solo accionista.
+	 * <post>Se retorno la ganancia maxima que puede tener al asociarse con un solo accionista.</post>
+	 */
+	public static double minimoAsociandoseConUno(double percentagesSource, double[] p) {
+		for(int i = 0; i < p.length; i++) {
+			double suma = p[i]+percentagesSource;
+			if(suma > 50) 
+				return Math.round(((percentagesSource*100)/suma) * 100.0) / 100.0;
+		}
+		
+		return 0.0;
 	}
 	
 	// Helpers
