@@ -30,6 +30,7 @@ public class Problema2 {
 
 		double respuesta = Math.round(((percentagesSource*100)/suma) * 100.0) / 100.0;
 		
+		// Se verifica si es mejor haberse asociado con solo una persona que con mas de uno.
 		respuesta = (conSoloUno > respuesta) ? conSoloUno : respuesta;
 		
 		System.out.println(respuesta);
